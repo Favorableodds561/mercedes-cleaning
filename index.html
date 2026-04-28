@@ -346,6 +346,110 @@ footer{background:var(--text-dark);color:rgba(255,255,255,.85);padding:50px 40px
   .sched-card{min-width:calc(50% - 6px);}
   .hero h1{font-size:1.9rem;}
 }
+
+/* ── FLOATING BOOK NOW BUBBLE ── */
+.float-bubble {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  animation: bubbleEntry 0.6s cubic-bezier(.34,1.56,.64,1) both;
+  animation-delay: 1.2s;
+  opacity: 0;
+}
+@keyframes bubbleEntry {
+  from { opacity:0; transform:scale(0) translateY(20px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
+}
+.float-bubble-label {
+  background: var(--text-dark);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  opacity: 0.92;
+  pointer-events: none;
+}
+.float-bubble-btn {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rose), #c94460);
+  box-shadow:
+    0 6px 24px rgba(232,96,122,0.55),
+    0 0 0 0 rgba(232,96,122,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.3;
+  cursor: pointer;
+  animation: bubblePulse 2.2s ease-in-out infinite;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.float-bubble-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 10px 36px rgba(232,96,122,0.65), 0 0 0 8px rgba(232,96,122,0.12);
+}
+.float-bubble-btn .bubble-icon {
+  font-size: 1.6rem;
+  margin-bottom: 2px;
+  display: block;
+}
+@keyframes bubblePulse {
+  0%   { box-shadow: 0 6px 24px rgba(232,96,122,0.55), 0 0 0 0   rgba(232,96,122,0.4); }
+  60%  { box-shadow: 0 6px 24px rgba(232,96,122,0.55), 0 0 0 16px rgba(232,96,122,0);  }
+  100% { box-shadow: 0 6px 24px rgba(232,96,122,0.55), 0 0 0 0   rgba(232,96,122,0);  }
+}
+
+/* sparkle particles around bubble */
+.bubble-sparkle {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  animation: bubbleSparkle 2.2s ease-in-out infinite;
+}
+.bubble-sparkle:nth-child(1) { top: 8px;  left: 14px; animation-delay: 0s;    width:5px; height:5px; }
+.bubble-sparkle:nth-child(2) { top: 12px; right:10px; animation-delay: 0.5s;  width:4px; height:4px; }
+.bubble-sparkle:nth-child(3) { bottom:10px; left:10px; animation-delay: 1.0s; width:4px; height:4px; }
+.bubble-sparkle:nth-child(4) { bottom:14px; right:14px; animation-delay:1.5s; width:5px; height:5px; }
+@keyframes bubbleSparkle {
+  0%,80%,100% { opacity:0; transform:scale(0);    }
+  40%          { opacity:1; transform:scale(1.4);  }
+}
+
+/* hide bubble when contact section is in view — avoids overlap */
+.float-bubble.hidden { opacity:0; pointer-events:none; transform:scale(0.7) translateY(10px); transition: all 0.3s ease; }
+
+@media(max-width:768px) {
+  .float-bubble { bottom:20px; right:16px; }
+  .float-bubble-btn { width:62px; height:62px; font-size:0.52rem; }
+  .float-bubble-btn .bubble-icon { font-size:1.4rem; }
+  .float-bubble-label { font-size:0.65rem; }
+}
+
 </style>
 </head>
 <body>
@@ -634,5 +738,19 @@ function sendSMS(number) {
   window.location.href = 'sms:+1' + number + sep + 'body=' + msg;
 }
 </script>
+
+<!-- FLOATING BOOK NOW BUBBLE -->
+<div class="float-bubble" id="floatBubble">
+  <div class="float-bubble-label">Free Estimate!</div>
+  <a class="float-bubble-btn" href="#contact" onclick="document.getElementById('floatBubble').classList.add('hidden'); setTimeout(()=>document.getElementById('floatBubble').classList.remove('hidden'),2500);">
+    <div class="bubble-sparkle"></div>
+    <div class="bubble-sparkle"></div>
+    <div class="bubble-sparkle"></div>
+    <div class="bubble-sparkle"></div>
+    <span class="bubble-icon">✨</span>
+    Book<br>Now
+  </a>
+</div>
+
 </body>
 </html>
