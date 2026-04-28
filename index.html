@@ -1009,7 +1009,7 @@ function closeMenu(){
   document.getElementById('mobile-menu').classList.remove('open');
 }
 
-/* ── Show/hide nav CTA based on screen ── */
+/* ── Show/hide nav CTA on desktop ── */
 (function(){
   var cta = document.getElementById('nav-cta-desktop');
   if(window.innerWidth > 768) cta.style.display = 'inline-block';
@@ -1031,19 +1031,90 @@ function sendSMS(number) {
   }
 
   var msg = 'Hi! I would like a quote from Mercedes Cleaning Services.'
-    + '%0AName: '    + encodeURIComponent(fname + ' ' + lname)
+    + '%0AName: '     + encodeURIComponent(fname + ' ' + lname)
     + '%0AMy Phone: ' + encodeURIComponent(phone)
     + (email    ? '%0AEmail: '    + encodeURIComponent(email)    : '')
     + '%0AService: '  + encodeURIComponent(service)
     + (schedule ? '%0ASchedule: ' + encodeURIComponent(schedule) : '')
     + (details  ? '%0ADetails: '  + encodeURIComponent(details)  : '');
 
-  /* iOS uses & before body, Android uses ? — detect and apply */
   var ua  = navigator.userAgent;
   var iOS = /iPhone|iPad|iPod/i.test(ua);
   var sep = iOS ? '&' : '?';
   window.location.href = 'sms:+1' + number + sep + 'body=' + msg;
 }
+
+/* ── Scroll Reveal ── */
+(function() {
+  var revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.10 });
+  revealEls.forEach(function(el) { observer.observe(el); });
+})();
+
+/* ── Maid Fairy ── */
+var fairyDismissed = false;
+var fairyMsgIndex  = 0;
+var fairyMsgs      = document.querySelectorAll('.fairy-msg');
+
+function showFairy() {
+  if (!fairyDismissed) {
+    document.getElementById('fairyWrap').classList.add('fairy-show');
+  }
+}
+function dismissFairy() {
+  fairyDismissed = true;
+  document.getElementById('fairyWrap').classList.remove('fairy-show');
+}
+function cycleFairyMsg() {
+  fairyMsgs[fairyMsgIndex].classList.remove('active');
+  fairyMsgIndex = (fairyMsgIndex + 1) % fairyMsgs.length;
+  fairyMsgs[fairyMsgIndex].classList.add('active');
+}
+
+/* Show fairy after 3 seconds — no scroll required */
+setTimeout(showFairy, 3000);
+
+/* Cycle message every 8 seconds automatically */
+setInterval(function() {
+  if (!fairyDismissed && document.getElementById('fairyWrap').classList.contains('fairy-show')) {
+    cycleFairyMsg();
+  }
+}, 8000);
+
+/* ── Scroll: bubble + fairy visibility ── */
+(function() {
+  var bubble  = document.getElementById('floatBubble');
+  var contact = document.getElementById('contact');
+  var fairy   = document.getElementById('fairyWrap');
+  var hero    = document.querySelector('.hero');
+
+  window.addEventListener('scroll', function() {
+    var scrollY      = window.scrollY || window.pageYOffset;
+    var heroBottom   = hero.offsetTop + hero.offsetHeight;
+    var contactTop   = contact.offsetTop;
+    var windowBottom = scrollY + window.innerHeight;
+
+    /* Hide both when contact form is in view */
+    if (windowBottom > contactTop + 100) {
+      bubble.classList.add('hidden');
+      fairy.classList.remove('fairy-show');
+    } else if (scrollY > 300) {
+      /* Past 300px — show book bubble, keep fairy if not dismissed */
+      bubble.classList.remove('hidden');
+      if (!fairyDismissed) fairy.classList.add('fairy-show');
+    } else {
+      /* Near top — hide book bubble, keep fairy visible */
+      bubble.classList.add('hidden');
+      if (!fairyDismissed) fairy.classList.add('fairy-show');
+    }
+  });
+})();
 </script>
 
 <!-- FLOATING BOOK NOW BUBBLE -->
