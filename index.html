@@ -611,14 +611,14 @@
     </div>
     <div class="contact-form">
       <div class="form-row">
-        <div class="form-group"><label>First Name</label><input type="text" placeholder="Jane"></div>
-        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Smith"></div>
+        <div class="form-group"><label>First Name</label><input id="f-fname" type="text" placeholder="Jane"></div>
+        <div class="form-group"><label>Last Name</label><input id="f-lname" type="text" placeholder="Smith"></div>
       </div>
-      <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="(555) 000-0000"></div>
-      <div class="form-group"><label>Email Address</label><input type="email" placeholder="jane@example.com"></div>
+      <div class="form-group"><label>Phone Number</label><input id="f-phone" type="tel" placeholder="(555) 000-0000"></div>
+      <div class="form-group"><label>Email Address</label><input id="f-email" type="email" placeholder="jane@example.com"></div>
       <div class="form-group">
         <label>Service Type</label>
-        <select>
+        <select id="f-service">
           <option value="">Select a service...</option>
           <option>Residential Cleaning</option>
           <option>Commercial Cleaning</option>
@@ -630,7 +630,7 @@
       </div>
       <div class="form-group">
         <label>Preferred Schedule</label>
-        <select>
+        <select id="f-schedule">
           <option value="">Select frequency...</option>
           <option>Weekly</option>
           <option>Bi-Weekly</option>
@@ -640,20 +640,20 @@
       </div>
       <div class="form-group">
         <label>Additional Details</label>
-        <textarea placeholder="Tell us about your space, special requests, or any questions..."></textarea>
+        <textarea id="f-details" placeholder="Tell us about your space, special requests, or any questions..."></textarea>
       </div>
       <div class="form-group">
         <label>Send Quote Request To</label>
-        <select id="sms-number">
-          <option value="5618460426">📞 (561) 846-0426 — English</option>
-          <option value="7862623083">📱 (786) 262-3083 — Español</option>
+        <select id="f-number">
+          <option value="5618460426">(561) 846-0426 — English</option>
+          <option value="7862623083">(786) 262-3083 — Espanol</option>
         </select>
       </div>
       <button class="btn-primary" style="width:100%; font-size:1.05rem; padding:15px;" onclick="sendSMS()">
         ✨ Send My Quote Request via Text
       </button>
       <p style="text-align:center; font-size:0.8rem; color:var(--text-light); margin-top:10px;">
-        📱 Tapping the button will open your messages app pre-filled — just hit send!
+        Tapping the button will open your messages app pre-filled — just hit Send!
       </p>
     </div>
   </div>
@@ -701,43 +701,34 @@
 
 <script>
 function sendSMS() {
-  var firstName = document.querySelector('input[placeholder="Jane"]').value.trim();
-  var lastName  = document.querySelector('input[placeholder="Smith"]').value.trim();
-  var phone     = document.querySelector('input[placeholder="(555) 000-0000"]').value.trim();
-  var email     = document.querySelector('input[placeholder="jane@example.com"]').value.trim();
-  var service   = document.querySelectorAll('select')[0].value;
-  var schedule  = document.querySelectorAll('select')[1].value;
-  var toNumber  = document.querySelectorAll('select')[2].value;
-  var details   = document.querySelector('textarea').value.trim();
+  var firstName = document.getElementById('f-fname').value.trim();
+  var lastName  = document.getElementById('f-lname').value.trim();
+  var phone     = document.getElementById('f-phone').value.trim();
+  var email     = document.getElementById('f-email').value.trim();
+  var service   = document.getElementById('f-service').value.trim();
+  var schedule  = document.getElementById('f-schedule').value.trim();
+  var details   = document.getElementById('f-details').value.trim();
+  var toNumber  = document.getElementById('f-number').value.trim();
 
   if (!firstName || !phone || !service) {
-    alert('Please fill in at least your name, phone number, and service type before sending!');
+    alert('Please fill in your name, phone number, and service type before sending.');
     return;
   }
 
-  var msg = 'Hi Mercedes Cleaning! I would like a quote.' +
-    '
-Name: ' + firstName + ' ' + lastName +
-    '
-Phone: ' + phone +
-    (email ? '
-Email: ' + email : '') +
-    '
-Service: ' + service +
-    (schedule ? '
-Schedule: ' + schedule : '') +
-    (details ? '
-Details: ' + details : '');
+  var msg = 'Hi Mercedes Cleaning! I would like a quote.'
+    + '\nName: ' + firstName + ' ' + lastName
+    + '\nMy Phone: ' + phone
+    + (email    ? '\nEmail: '    + email    : '')
+    + '\nService: ' + service
+    + (schedule ? '\nSchedule: ' + schedule : '')
+    + (details  ? '\nDetails: '  + details  : '');
 
   var encoded = encodeURIComponent(msg);
+  var isIOS   = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  var sep     = isIOS ? '&' : '?';
+  var link    = 'sms:+1' + toNumber + sep + 'body=' + encoded;
 
-  // sms: works on iOS and Android; the & separator works on Android, ? on iOS
-  // We detect and handle both
-  var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-  var sep = isIOS ? '&' : '?';
-  var smsLink = 'sms:+1' + toNumber + sep + 'body=' + encoded;
-
-  window.location.href = smsLink;
+  window.open(link, '_self');
 }
 </script>
 </body>
