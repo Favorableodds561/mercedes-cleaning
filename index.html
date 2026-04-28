@@ -642,10 +642,19 @@
         <label>Additional Details</label>
         <textarea placeholder="Tell us about your space, special requests, or any questions..."></textarea>
       </div>
-      <button class="btn-primary" style="width:100%; font-size:1.05rem; padding:15px;"
-        onclick="alert('Thank you! We will be in touch soon with your free estimate!')">
-        ✨ Request My Free Estimate
+      <div class="form-group">
+        <label>Send Quote Request To</label>
+        <select id="sms-number">
+          <option value="5618460426">📞 (561) 846-0426 — English</option>
+          <option value="7862623083">📱 (786) 262-3083 — Español</option>
+        </select>
+      </div>
+      <button class="btn-primary" style="width:100%; font-size:1.05rem; padding:15px;" onclick="sendSMS()">
+        ✨ Send My Quote Request via Text
       </button>
+      <p style="text-align:center; font-size:0.8rem; color:var(--text-light); margin-top:10px;">
+        📱 Tapping the button will open your messages app pre-filled — just hit send!
+      </p>
     </div>
   </div>
 </section>
@@ -690,5 +699,46 @@
   </div>
 </footer>
 
+<script>
+function sendSMS() {
+  var firstName = document.querySelector('input[placeholder="Jane"]').value.trim();
+  var lastName  = document.querySelector('input[placeholder="Smith"]').value.trim();
+  var phone     = document.querySelector('input[placeholder="(555) 000-0000"]').value.trim();
+  var email     = document.querySelector('input[placeholder="jane@example.com"]').value.trim();
+  var service   = document.querySelectorAll('select')[0].value;
+  var schedule  = document.querySelectorAll('select')[1].value;
+  var toNumber  = document.querySelectorAll('select')[2].value;
+  var details   = document.querySelector('textarea').value.trim();
+
+  if (!firstName || !phone || !service) {
+    alert('Please fill in at least your name, phone number, and service type before sending!');
+    return;
+  }
+
+  var msg = 'Hi Mercedes Cleaning! I would like a quote.' +
+    '
+Name: ' + firstName + ' ' + lastName +
+    '
+Phone: ' + phone +
+    (email ? '
+Email: ' + email : '') +
+    '
+Service: ' + service +
+    (schedule ? '
+Schedule: ' + schedule : '') +
+    (details ? '
+Details: ' + details : '');
+
+  var encoded = encodeURIComponent(msg);
+
+  // sms: works on iOS and Android; the & separator works on Android, ? on iOS
+  // We detect and handle both
+  var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  var sep = isIOS ? '&' : '?';
+  var smsLink = 'sms:+1' + toNumber + sep + 'body=' + encoded;
+
+  window.location.href = smsLink;
+}
+</script>
 </body>
 </html>
