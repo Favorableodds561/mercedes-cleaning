@@ -242,10 +242,10 @@ section{padding:80px 40px;}
   cursor:pointer;text-decoration:none;text-align:center;border:none;
   transition:all .2s;
 }
-.sms-btn-en{background:var(--rose);color:white;box-shadow:0 8px 24px rgba(232,96,122,.35);}
-.sms-btn-en:hover{background:#c94460;transform:translateY(-2px);}
-.sms-btn-es{background:var(--sky-deep);color:white;box-shadow:0 8px 24px rgba(109,196,222,.35);}
-.sms-btn-es:hover{background:#4aaecc;transform:translateY(-2px);}
+.sms-btn-en{background:var(--sky-deep);color:white;box-shadow:0 8px 24px rgba(109,196,222,.35);}
+.sms-btn-en:hover{background:#4aaecc;transform:translateY(-2px);}
+.sms-btn-es{background:var(--rose);color:white;box-shadow:0 8px 24px rgba(232,96,122,.35);}
+.sms-btn-es:hover{background:#c94460;transform:translateY(-2px);}
 .form-note{text-align:center;font-size:.78rem;color:var(--text-light);margin-top:8px;}
 
 /* ── FOOTER ── */
@@ -728,6 +728,96 @@ footer{background:var(--text-dark);color:rgba(255,255,255,.85);padding:50px 40px
   .fairy-bubble { max-width:190px; padding:12px 14px; }
 }
 
+
+/* ── CLEANING TIERS SECTION ── */
+.tiers-section { background: white; }
+.tiers-tabs {
+  display: flex; gap: 0; margin: 40px 0 0;
+  border-radius: 16px 16px 0 0; overflow: hidden;
+  border: 2px solid var(--rose-pale); border-bottom: none;
+  flex-wrap: wrap;
+}
+.tier-tab {
+  flex: 1; min-width: 140px; padding: 16px 20px;
+  font-family: 'Nunito', sans-serif; font-weight: 700;
+  font-size: 0.9rem; cursor: pointer; border: none;
+  background: var(--soft-grey); color: var(--text-mid);
+  transition: all 0.25s; text-align: center;
+  border-right: 2px solid var(--rose-pale); letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.tier-tab:last-child { border-right: none; }
+.tier-tab:hover { background: var(--rose-pale); color: var(--rose); }
+.tier-tab.active { background: var(--rose); color: white; }
+.tier-tab .tier-icon { display: block; font-size: 1.5rem; margin-bottom: 4px; }
+.tier-tab .tier-badge {
+  display: inline-block; font-size: 0.65rem; padding: 2px 8px;
+  border-radius: 10px; margin-top: 4px; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.tier-tab.active .tier-badge { background: rgba(255,255,255,0.25); color: white; }
+.tier-tab .tier-badge { background: var(--rose-pale); color: var(--rose); }
+
+.tier-panel {
+  display: none;
+  border: 2px solid var(--rose-pale); border-radius: 0 0 20px 20px;
+  padding: 36px 32px; background: white;
+  animation: tierFadeIn 0.35s ease both;
+}
+.tier-panel.active { display: block; }
+@keyframes tierFadeIn {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.tier-panel-intro {
+  background: var(--blush); border-radius: 14px; padding: 20px 24px;
+  margin-bottom: 28px; border-left: 5px solid var(--rose);
+}
+.tier-panel-intro p { font-size: 1rem; color: var(--text-mid); line-height: 1.7; }
+.tier-panel-intro strong { color: var(--rose); }
+.tier-rooms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+.tier-room {
+  background: var(--soft-grey); border-radius: 14px; padding: 20px;
+  border: 2px solid var(--rose-pale); transition: all 0.2s;
+}
+.tier-room:hover { border-color: var(--rose-light); background: var(--blush); transform: translateY(-3px); }
+.tier-room h4 {
+  font-family: 'Playfair Display', serif; font-size: 1rem;
+  color: var(--rose); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.tier-room ul { list-style: none; }
+.tier-room ul li {
+  font-size: 0.8rem; color: var(--text-mid);
+  padding: 4px 0; border-bottom: 1px solid rgba(232,96,122,0.1);
+  display: flex; align-items: flex-start; gap: 6px; line-height: 1.4;
+}
+.tier-room ul li:last-child { border-bottom: none; }
+.tier-room ul li::before { content: '✓'; color: var(--rose); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.tier-room ul li.extra::before { content: '★'; color: var(--gold); }
+.tier-cta {
+  margin-top: 28px; padding: 20px 24px;
+  background: linear-gradient(135deg, var(--rose-pale), var(--sky));
+  border-radius: 14px; text-align: center;
+}
+.tier-cta p { font-size: 0.95rem; color: var(--text-mid); margin-bottom: 14px; font-weight: 600; }
+
+@media(max-width:768px) {
+  .tiers-tabs { border-radius: 12px 12px 0 0; }
+  .tier-tab { padding: 12px 10px; font-size: 0.75rem; min-width: 80px; }
+  .tier-tab .tier-icon { font-size: 1.2rem; }
+  .tier-panel { padding: 22px 16px; }
+  .tier-rooms { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tier-room { padding: 14px; }
+}
+@media(max-width:480px) {
+  .tier-rooms { grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -807,6 +897,292 @@ footer{background:var(--text-dark);color:rgba(255,255,255,.85);padding:50px 40px
     <div class="service-card"><div class="service-icon">✨</div><h3>Move In / Move Out</h3><p>Starting fresh or leaving a spotless impression. Every corner pristine, guaranteed.</p></div>
     <div class="service-card"><div class="service-icon">🌿</div><h3>One-Time Cleaning</h3><p>No commitment needed. Perfect for special occasions, post-party, or whenever you need a hand.</p></div>
     <div class="service-card"><div class="service-icon">🔄</div><h3>Recurring Maintenance</h3><p>Weekly, bi-weekly, or monthly — enjoy a consistently clean space all year round.</p></div>
+  </div>
+</section>
+
+
+<!-- CLEANING TIERS -->
+<section class="tiers-section reveal" id="tiers">
+  <div class="section-label">Our Cleaning Packages</div>
+  <h2 class="section-title">Choose Your <em>Clean Level</em></h2>
+  <p class="section-sub">Every home is different. Pick the tier that fits your needs — or contact us for a fully customized plan.</p>
+
+  <div class="tiers-tabs">
+    <button class="tier-tab active" onclick="showTier('standard')">
+      <span class="tier-icon">🧹</span>
+      Standard<br>Maintenance
+      <span class="tier-badge">Most Popular</span>
+    </button>
+    <button class="tier-tab" onclick="showTier('deep')">
+      <span class="tier-icon">✨</span>
+      Deep<br>Clean
+      <span class="tier-badge">Thorough</span>
+    </button>
+    <button class="tier-tab" onclick="showTier('moveinout')">
+      <span class="tier-icon">📦</span>
+      Move In /<br>Move Out
+      <span class="tier-badge">Complete</span>
+    </button>
+  </div>
+
+  <!-- STANDARD MAINTENANCE -->
+  <div class="tier-panel active" id="tier-standard">
+    <div class="tier-panel-intro">
+      <p><strong>Our Standard Maintenance Clean</strong> is perfect for keeping your home or office consistently clean and tidy. We'll work with you to create a customized cleaning plan tailored to your needs.</p>
+    </div>
+    <div class="tier-rooms">
+      <div class="tier-room">
+        <h4>🍳 Kitchen</h4>
+        <ul>
+          <li>Inside microwave</li>
+          <li>Glass surfaces</li>
+          <li>Stovetop</li>
+          <li>Outside of appliances</li>
+          <li>Empty trash</li>
+          <li>Backsplash</li>
+          <li>Exterior of trash can</li>
+          <li>Sweep & mop floors</li>
+          <li>Outside of stove hood</li>
+          <li>Counter tops</li>
+          <li>Sink & dishes (sink-sized)</li>
+          <li>Mirrors & shelves</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🚿 Bathrooms</h4>
+        <ul>
+          <li>Shower & tub</li>
+          <li>Polish faucets</li>
+          <li>Mirrors</li>
+          <li>Empty trash</li>
+          <li>Toilets</li>
+          <li>Glass surfaces</li>
+          <li>Sweep & mop floors</li>
+          <li>Counters & shelves</li>
+          <li>Sink</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🛏 Bedrooms</h4>
+        <ul>
+          <li>Sweep & mop floors</li>
+          <li>Make beds</li>
+          <li>Mirrors & shelves</li>
+          <li>Empty trash</li>
+          <li>Light dusting of furniture</li>
+          <li>Vacuum floors</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🛋 Dining & Living Room</h4>
+        <ul>
+          <li>Glass surfaces</li>
+          <li>Empty trash</li>
+          <li>Mirrors & shelves</li>
+          <li>Mop floor</li>
+          <li>Light dusting of furniture</li>
+          <li>Vacuum floors & rugs</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🫧 Laundry Room</h4>
+        <ul>
+          <li>Outside of appliances</li>
+          <li>Glass surfaces</li>
+          <li>Empty trash</li>
+          <li>Sinks & counters</li>
+          <li>Sweep & mop floor</li>
+          <li>Light dusting of furniture</li>
+          <li>Mirrors & shelves</li>
+          <li>Vacuum rugs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tier-cta">
+      <p>✨ Perfect for weekly, bi-weekly, or monthly recurring plans. Let's keep your space consistently spotless!</p>
+      <a href="#contact" class="btn-primary">Get a Free Estimate</a>
+    </div>
+  </div>
+
+  <!-- DEEP CLEAN -->
+  <div class="tier-panel" id="tier-deep">
+    <div class="tier-panel-intro">
+      <p><strong>Our Deep Clean</strong> is designed to provide a thorough and comprehensive cleaning of your space, targeting hard-to-reach areas and built-up grime. <strong>Trust us, we leave no corner untouched.</strong></p>
+    </div>
+    <div class="tier-rooms">
+      <div class="tier-room">
+        <h4>🍳 Kitchen</h4>
+        <ul>
+          <li>Inside microwave</li>
+          <li>Glass surfaces & stovetop</li>
+          <li>Outside of appliances</li>
+          <li>Empty trash & backsplash</li>
+          <li>Exterior of trash can</li>
+          <li>Sweep & mop floors</li>
+          <li>Outside of stove hood</li>
+          <li>Counter tops</li>
+          <li>Sink & dishes (sink-sized)</li>
+          <li>Mirrors & shelves</li>
+          <li class="extra">Window blinds</li>
+          <li class="extra">Baseboards & cobwebs</li>
+          <li class="extra">Ceiling fans</li>
+          <li class="extra">Dusting of furniture</li>
+          <li class="extra">Polish metal appliances</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🚿 Bathrooms</h4>
+        <ul>
+          <li>Shower, tub & sink</li>
+          <li>Polish faucets</li>
+          <li>Mirrors & toilets</li>
+          <li>Glass surfaces</li>
+          <li>Empty trash</li>
+          <li>Sweep & mop floors</li>
+          <li>Counters & shelves</li>
+          <li class="extra">Window blinds</li>
+          <li class="extra">Baseboards & cobwebs</li>
+          <li class="extra">Ceiling fans</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🛏 Bedrooms</h4>
+        <ul>
+          <li>Sweep & mop floors</li>
+          <li>Make beds</li>
+          <li>Mirrors & shelves</li>
+          <li>Empty trash</li>
+          <li>Dusting of furniture</li>
+          <li>Vacuum floors</li>
+          <li class="extra">Window blinds</li>
+          <li class="extra">Baseboards & cobwebs</li>
+          <li class="extra">Ceiling fans</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🛋 Dining & Living Room</h4>
+        <ul>
+          <li>Glass surfaces</li>
+          <li>Empty trash</li>
+          <li>Mirrors & shelves</li>
+          <li>Mop floor</li>
+          <li>Dusting of furniture</li>
+          <li>Vacuum floors & rugs</li>
+          <li class="extra">Light fixtures</li>
+          <li class="extra">Cobwebs & air vents</li>
+          <li class="extra">Metal & glassware</li>
+          <li class="extra">Ledges & doors</li>
+          <li class="extra">Outside of cabinets & drawers</li>
+          <li class="extra">Window blinds & baseboards</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🫧 Laundry Room</h4>
+        <ul>
+          <li>Outside of appliances</li>
+          <li>Glass surfaces</li>
+          <li>Empty trash</li>
+          <li>Sinks & counters</li>
+          <li>Sweep & mop floor</li>
+          <li>Light dusting of furniture</li>
+          <li>Mirrors & shelves</li>
+          <li>Vacuum rugs</li>
+          <li class="extra">Window blinds</li>
+          <li class="extra">Baseboards & cobwebs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tier-cta">
+      <p>⭐ Items marked with a star are premium deep clean extras — <strong>no corner left behind!</strong></p>
+      <a href="#contact" class="btn-primary">Book a Deep Clean</a>
+    </div>
+  </div>
+
+  <!-- MOVE IN / MOVE OUT -->
+  <div class="tier-panel" id="tier-moveinout">
+    <div class="tier-panel-intro">
+      <p><strong>Take the hassle out of transitioning to a new space.</strong> Our Move-In/Move-Out service has our expert cleaners tackle all surfaces for a smooth and seamless move for you and your family.</p>
+    </div>
+    <div class="tier-rooms">
+      <div class="tier-room">
+        <h4>🍳 Kitchen</h4>
+        <ul>
+          <li>Inside/outside microwave & oven</li>
+          <li>Glass surfaces & backsplash</li>
+          <li>Sweep & mop floors</li>
+          <li>Outside of stove hood</li>
+          <li>Light fixtures</li>
+          <li>Counter tops</li>
+          <li>Sink & chrome</li>
+          <li>Mirrors & shelves</li>
+          <li class="extra">Ceiling fans & baseboards</li>
+          <li class="extra">Cobwebs</li>
+          <li class="extra">Windows, sills & blinds</li>
+          <li class="extra">Ledges & doors & door frames</li>
+          <li class="extra">Inside/outside cabinets & drawers</li>
+          <li class="extra">Pantry floor & door</li>
+          <li class="extra">Top of refrigerator</li>
+          <li class="extra">Baker's rack & shelves</li>
+          <li class="extra">Polish metal appliances</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🚿 Bathrooms</h4>
+        <ul>
+          <li>Shower & tub & sink</li>
+          <li>Polish faucets</li>
+          <li>Mirrors & toilets</li>
+          <li>Glass surfaces</li>
+          <li>Sweep & mop floors</li>
+          <li>Counters & shelves</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🛏 Bedrooms</h4>
+        <ul>
+          <li>Vacuum & sweep floors</li>
+          <li>Mop floors</li>
+          <li>Mirrors & shelves</li>
+          <li>Empty trash</li>
+          <li>Ledges & doors</li>
+          <li class="extra">Window blinds</li>
+          <li class="extra">Inside/outside cabinets & drawers</li>
+          <li class="extra">Cobwebs & baseboards</li>
+          <li class="extra">Light fixtures</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🛋 Dining & Living Room</h4>
+        <ul>
+          <li>Glass surfaces</li>
+          <li>Empty trash</li>
+          <li>Mirrors & shelves</li>
+          <li>Mop & vacuum floor</li>
+          <li class="extra">Cobwebs & ledges</li>
+          <li class="extra">Light fixtures</li>
+          <li class="extra">Baseboards & ceiling fans</li>
+          <li class="extra">Doors</li>
+        </ul>
+      </div>
+      <div class="tier-room">
+        <h4>🫧 Laundry Room</h4>
+        <ul>
+          <li>Outside of appliances (washer, dryer)</li>
+          <li>Mop floor & sweep floors</li>
+          <li>Glass surfaces & mirrors</li>
+          <li>Empty trash</li>
+          <li>Sinks & counters</li>
+          <li class="extra">Shelves & ledges</li>
+          <li class="extra">Light fixtures</li>
+          <li class="extra">Baseboards & cobwebs</li>
+          <li class="extra">Doors & window blinds</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tier-cta">
+      <p>📦 Moving in or out? Let us handle the cleaning so you can focus on your new chapter!</p>
+      <a href="#contact" class="btn-primary">Book Move Cleaning</a>
+    </div>
   </div>
 </section>
 
@@ -949,11 +1325,11 @@ footer{background:var(--text-dark);color:rgba(255,255,255,.85);padding:50px 40px
 
       <p style="font-weight:700;font-size:.85rem;color:var(--text-mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;">Send request to:</p>
       <div class="sms-btn-group">
-        <a id="btn-en" href="#" onclick="sendSMS('5618460426'); return false;" class="sms-btn sms-btn-en">
-          📱 Text (561) 846-0426 — English
-        </a>
         <a id="btn-es" href="#" onclick="sendSMS('7862623083'); return false;" class="sms-btn sms-btn-es">
-          📱 Text (786) 262-3083 — Español
+          📱 Text (786) 262-3083 &nbsp;·&nbsp; Se Habla Español
+        </a>
+        <a id="btn-en" href="#" onclick="sendSMS('5618460426'); return false;" class="sms-btn sms-btn-en">
+          📱 Text (561) 846-0426 &nbsp;·&nbsp; Se Habla Español
         </a>
       </div>
       <p class="form-note">Tapping a button opens your Messages app with everything pre-filled — just press Send!</p>
@@ -1000,6 +1376,15 @@ footer{background:var(--text-dark);color:rgba(255,255,255,.85);padding:50px 40px
 </footer>
 
 <script>
+
+/* ── Cleaning Tiers Tab Switcher ── */
+function showTier(id) {
+  document.querySelectorAll('.tier-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tier-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('tier-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
 /* ── Mobile menu ── */
 function toggleMenu(){
   var m = document.getElementById('mobile-menu');
